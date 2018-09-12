@@ -1,0 +1,56 @@
+import numpy as np
+import math
+
+
+# Input function here
+def f(a):
+  return 82944*a**10 - 118656*a**8 + 60292*a**6 - 13133*a**4 + 1189*a**2 - 36
+
+#Functions  
+def bisection_method(a,b,k): #f = function; a and b are intervals
+    if len(a) != 0:
+      for i in range (len(a)):
+        tolerance = 10**-10
+        f_dif = 1
+        while abs(f_dif) > tolerance:
+
+            c = (a[i]+b[i])/2
+            
+            if f(c)*f(a[i]) < 0:
+                b[i] = c
+                f_dif = abs(f(a[i])-f(b[i]))
+                
+            elif f(c)*f(b[i]) < 0:
+                a[i] = c
+                f_dif = abs(f(a[i])-f(b[i]))
+        k.append(c)
+  
+    return k
+
+def root_finder():
+
+    a = b = 1
+    c_lower = []
+    c_higher = []
+    c_root = []
+    l_range = int(input("Set lower range: "))*100
+    h_range = int(input("Set upper range: "))*100
+    
+    for i in [x*0.01 for x in range(l_range,h_range)]:
+        
+        a = i 
+        b = i + 0.01
+        if f(a)*f(b) < 0:
+            c_lower.append(i)
+            c_higher.append(i+0.02)
+        elif f(a) == 0:
+            c_root.append(i)
+
+    return c_lower,c_higher,c_root
+
+
+c_lower,c_higher,c_root = root_finder()
+
+bisection_method(c_lower,c_higher,c_root)
+print(c_root)
+
